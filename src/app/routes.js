@@ -37,7 +37,7 @@ const routes = [
   { path: "/session/signin", element: <JwtLogin /> },
   { path: "/session/signup", element: <JwtRegister /> },
   { path: "/session/forgot-password", element: <ForgotPassword /> },
-  { path: "/", element: <Navigate to="dashboard/" /> },
+  { path: "/", element: <Navigate to="/dashboard/" /> },
   { path: "*", element: <NotFound /> }
 ];
 

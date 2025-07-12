@@ -1,29 +1,20 @@
-# Build Stage
-FROM node:18 AS build
+# Use official Nginx image
+FROM nginx:alpine
 
-WORKDIR /app
+# Set working directory
+WORKDIR /usr/share/nginx/html
 
-ENV NODE_ENV=development
+# Remove default files
+RUN rm -rf ./*
 
-COPY package.json package-lock.json ./
-RUN npm install --force
+# Copy built React files
+COPY build/ /usr/share/nginx/html/cc-app/
 
-COPY . .
-
-RUN npm run build
-
-# Production Stage
-FROM nginx:1.25-alpine
-
-# Clear default nginx static files
-RUN rm -rf /usr/share/nginx/html/*
-
-# Custom nginx config
+# Copy custom Nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy built frontend from previous stage
-COPY --from=build /app/build /usr/share/nginx/html
-
+# Expose port 80
 EXPOSE 80
 
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
