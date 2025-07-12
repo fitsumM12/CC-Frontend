@@ -1,17 +1,29 @@
-FROM node:18
+# Build Stage
+FROM node:18 AS build
 
 WORKDIR /app
 
-COPY package*.json ./
+ENV NODE_ENV=development
 
+COPY package.json package-lock.json ./
 RUN npm install --force
 
 COPY . .
 
 RUN npm run build
 
-RUN npm install -g serve
+# Production Stage
+FROM nginx:1.25-alpine
 
-EXPOSE 3002
+# Clear default nginx static files
+RUN rm -rf /usr/share/nginx/html/*
 
-CMD ["serve", "-s", "build", "-l", "3002"]
+# Custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy built frontend from previous stage
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
