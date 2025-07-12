@@ -1,20 +1,26 @@
-# Use official Nginx image
-FROM nginx:alpine
+FROM node:18  AS build
 
-# Set working directory
-WORKDIR /usr/share/nginx/html
+WORKDIR /app
 
-# Remove default files
-RUN rm -rf ./*
+# Set environment to development to include devDependencies
+ENV NODE_ENV=development
 
-# Copy built React files
-COPY build/ /usr/share/nginx/html/cc-app/
+COPY package.json package-lock.json ./
+RUN npm install --force
 
-# Copy custom Nginx config
+COPY . .
+
+RUN npm run build
+
+# Production stage
+FROM nginx:1.25-alpine
+
+RUN rm -rf /usr/share/nginx/html/*
+
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80
+COPY --from=build /app/build /usr/share/nginx/html/"cc-app"
+
 EXPOSE 80
 
-# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
