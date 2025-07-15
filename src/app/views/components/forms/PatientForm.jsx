@@ -72,7 +72,7 @@ const PatientForm = () => {
     image_url: null,
     image_prediction: null,
     patient_id: state.new_screening ? state.currentPatientId : null,
-    doctor_id: user.id,
+    doctor_id: user?.id,
   });
 
   const initialFormData = {
@@ -86,8 +86,8 @@ const PatientForm = () => {
     region: "region",
     zone: "zone",
     kebele: "kebele",
-    doctor_id: user.id,
-    health_institution: user.health_institution.id,
+    doctor_id: user?.id,
+    health_institution: user?.health_institution?.id,
   };
 
   const handleOpenDialog = () => setDialogOpen(true);
@@ -97,9 +97,9 @@ const PatientForm = () => {
   useEffect(() => {
     if (state.new_screening) setShowImageSection(true);
     return () => {
-      if (state.new_screening) dispatch({ type: 'STOP_NEW_SCREENING' });
+      if (state?.new_screening) dispatch({ type: 'STOP_NEW_SCREENING' });
     };
-  }, [state.new_screening, dispatch]);
+  }, [state?.new_screening, dispatch]);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
@@ -164,7 +164,7 @@ const PatientForm = () => {
 
     try {
       const response = await submitFormData(formData);
-      setPredictions((prev) => ({ ...prev, patient_id: response.id }))
+      setPredictions((prev) => ({ ...prev, patient_id: response?.id }))
       setShowImageSection(true);
     } catch (error) {
       console.error("Error saving patient data:", error);

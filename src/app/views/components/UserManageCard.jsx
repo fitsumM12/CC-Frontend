@@ -31,7 +31,7 @@ const UserManageCard = ({ children, title, subtitle }) => {
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2, justifyContent: 'flex-end', display: 'flex' }}>
                     <>
-                        <Button onClick={updateState}> {state.add_new_user ? (<p>View All</p>) : (<p>Add New User</p>)}</Button>
+                        <Button onClick={updateState}> {state?.add_new_user ? (<p>View All</p>) : (<p>Add New User</p>)}</Button>
                     </>
 
                 </Grid>

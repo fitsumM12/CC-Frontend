@@ -1,71 +1,96 @@
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Button,
+  Grid,
+  Typography,
+  Avatar,
+  Paper
+} from '@mui/material';
+import { getUser } from 'app/apis/users_api';
 
-import { useEffect, useState } from "react";
-import { formatDateOfBirth } from "app/utils/date";
-import { getUser } from "app/apis/users_api";
-import { Typography,Grid, Paper } from '@mui/material';
+export default function UserView({ userId, onClose }) {
+  const [user, setUser] = useState(null);
 
-
-function UserView(userId) {
-  const date = new Date()
-  const [formData, setFormData] = useState(
-    {
-      firstname: "",
-      lastname: "",
-      birthday: formatDateOfBirth(date),
-      gender: "Other",
-      email: "",
-      password: "secretpassword",
-      mobile: "1234567890",
-      region: "Region",
-      zone: "Zone",
-      kebele: "Kebele",
-      organization: "Workplace",
-      image: 'null',
-      passport: 'null',
-      status: "PENDING",
-      role: "GUEST",
-    }
-  );
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUser = async () => {
       try {
-        const userData = await getUser(userId.userId); 
-        setFormData(userData);
+        const userData = await getUser(userId);
+        setUser(userData);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching user:', error);
       }
     };
-
-    fetchData();
+    fetchUser();
   }, [userId]);
 
+  if (!user) return <Typography>Loading...</Typography>;
+
   return (
-    <Paper elevation={3} style={{ padding: 20, marginTop: 20 }}>
-    <Typography variant="h5" gutterBottom>User Information</Typography>
-    <Grid container spacing={2}>
-      <Grid item xs={12} md={6}>
-        <Typography variant="body1"><strong>First Name:</strong> {formData.firstname}</Typography>
-        <Typography variant="body1"><strong>Last Name:</strong> {formData.lastname}</Typography>
-        <Typography variant="body1"><strong>Region:</strong> {formData.region}</Typography>
-        <Typography variant="body1"><strong>Zone:</strong> {formData.zone}</Typography>
-        <Typography variant="body1"><strong>Kebele:</strong> {formData.kebele}</Typography>
-        <Typography variant="body1"><strong>Organization:</strong> {formData.organization}</Typography>
-        <Typography variant="body1"><strong>Date of Birth:</strong> {formData.birthday}</Typography>
-        <Typography variant="body1"><strong>Gender:</strong> {formData.gender}</Typography>
+    <Paper sx={{ p: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+        <Typography variant="h5">User Details</Typography>
+        <Button onClick={onClose}>Close</Button>
+      </Box>
+      
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Avatar
+            src={user.image}
+            sx={{ width: 150, height: 150 }}
+          />
+        </Grid>
+        <Grid item xs={12} md={9}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1">Username:</Typography>
+              <Typography variant="body1">{user.username}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1">Email:</Typography>
+              <Typography variant="body1">{user.email}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1">Role:</Typography>
+              <Typography variant="body1">{user.role}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1">Status:</Typography>
+              <Typography variant="body1">{user.status}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1">Gender:</Typography>
+              <Typography variant="body1">{user.gender}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1">Birthday:</Typography>
+              <Typography variant="body1">
+                {user.birthday ? new Date(user.birthday).toLocaleDateString() : 'N/A'}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1">Mobile:</Typography>
+              <Typography variant="body1">{user.mobile || 'N/A'}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1">Region:</Typography>
+              <Typography variant="body1">{user.region || 'N/A'}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1">Zone:</Typography>
+              <Typography variant="body1">{user.zone || 'N/A'}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1">Kebele:</Typography>
+              <Typography variant="body1">{user.kebele || 'N/A'}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="subtitle1">Health Institution:</Typography>
+              <Typography variant="body1">{user.hospital || 'N/A'}</Typography>
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
-      <Grid item xs={12} md={6}>
-        <Typography variant="body1"><strong>Mobile Number:</strong> {formData.mobile}</Typography>
-        <Typography variant="body1"><strong>Email:</strong> {formData.email}</Typography>
-        <Typography variant="body1"><strong>Password:</strong> ********</Typography> {/* Do not display actual password */}
-        <Typography variant="body1"><strong>Status:</strong> {formData.status}</Typography>
-        <Typography variant="body1"><strong>Role:</strong> {formData.role}</Typography>
-        {/* Optionally display uploaded files */}
-        <Typography variant="body1"><strong>Passport:</strong> {formData.passport}</Typography>
-        <Typography variant="body1"><strong>Image:</strong> {formData.image}</Typography>
-      </Grid>
-    </Grid>
-  </Paper>
+    </Paper>
   );
 }
-
-export default UserView;

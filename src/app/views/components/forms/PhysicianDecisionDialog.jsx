@@ -20,8 +20,8 @@ const PhysicianDecisionDialog = ({ open, onClose, Result }) => {
     formData.append('approval', approval);
     formData.append('feedback', feedback);
     formData.append('disease', disease);
-    if (Result && Result.id) {
-      formData.append('result', Result.id); 
+    if (Result && Result?.id) {
+      formData.append('result', Result?.id); 
     }
 
     try {

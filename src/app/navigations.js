@@ -4,7 +4,7 @@ export const navigations = [
   {
     name: "New Case",
     icon: "person",
-    path: "/newcase"
+    path: "/newcase/"
   }, 
  
   {
@@ -12,6 +12,7 @@ export const navigations = [
     icon: "group",
     path: "/records/"
   },
+  
  
  
   {

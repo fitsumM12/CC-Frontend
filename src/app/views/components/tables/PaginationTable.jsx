@@ -86,10 +86,10 @@ export default function PaginationTable() {
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((subscriber, index) => (
               <TableRow key={index}>
-                <TableCell align="left">{subscriber.name}</TableCell>
-                <TableCell align="center">{subscriber.woreda}</TableCell>
-                <TableCell align="center">{subscriber.zone}</TableCell>
-                <TableCell align="center">{subscriber.status}</TableCell>
+                <TableCell align="left">{subscriber?.name}</TableCell>
+                <TableCell align="center">{subscriber?.woreda}</TableCell>
+                <TableCell align="center">{subscriber?.zone}</TableCell>
+                <TableCell align="center">{subscriber?.status}</TableCell>
                 <TableCell align="right">
                   <IconButton>
                     <Icon color="error">close</Icon>

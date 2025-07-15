@@ -5,6 +5,9 @@ import { authRoles } from "./auth/authRoles";
 import Loadable from "./components/Loadable";
 import Layout from "./components/Layout/Layout";
 import materialRoutes from "app/views/components/MaterialRoutes";
+import { patch } from "@mui/material";
+import UserManageCard from "./views/components/UserManageCard";
+import ManageUser from "./views/components/tables/ManageUsers";
 // // SESSION PAGES
 const NotFound = Loadable(lazy(() => import("app/views/sessions/NotFound")));
 const JwtLogin = Loadable(lazy(() => import("app/views/sessions/JwtLogin")));
@@ -25,10 +28,11 @@ const routes = [
     ),
     children: [
       ...materialRoutes,
-      { path: "/dashboard/", element: <Analytics />},
-      { path: "/newcase/", element: <PatientForm />},
-      { path: "/records/", element: <PatientsRecord />},
-      { path: "/user_profile/", element: <ProfilePage />},
+      { path: "/dashboard/", element: <Analytics /> },
+      { path: "/newcase/", element: <PatientForm /> },
+      { path: "/records/", element: <PatientsRecord /> },
+      { path: "/user_profile/", element: <ProfilePage /> },
+      { path: "/user_management/", element: <ManageUser /> },
       { path: "*", element: <NotFound /> }
     ]
   },

@@ -64,7 +64,7 @@ const PatientsRecord = () => {
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const patientData = await fetchPatientForDoctor(doctor.user.health_institution.id);
+        const patientData = await fetchPatientForDoctor(doctor?.user?.health_institution?.id);
         setPatients(patientData);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -121,8 +121,8 @@ const PatientsRecord = () => {
   };
 
   const [searchQuery, setSearchQuery] = useState('');
-  const filteredpatient = patients.filter((patient) =>
-    String(patient.first_name + patient.last_name).toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredpatient = patients?.filter((patient) =>
+    String(patient?.first_name + patient?.last_name)?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 // console.log("patient filtered", filteredpatient)
   return (
@@ -159,18 +159,18 @@ const PatientsRecord = () => {
                     .map((patient, index) => (
                       <TableRow key={index}>
                         <TableCell align="left">
-                          {patient.first_name + " " + patient.last_name}
+                          {patient?.first_name + " " + patient?.last_name}
                         </TableCell>
-                        <TableCell align="center">{patient.mobile}</TableCell>
+                        <TableCell align="center">{patient?.mobile}</TableCell>
                         <TableCell align="center">
-                          {patient.gender}
+                          {patient?.gender}
                         </TableCell><TableCell align="center">
-                          {patient.record_date}
+                          {patient?.record_date}
                         </TableCell>
                         <TableCell align="right">
                           <Tooltip title="View">
                             <IconButton
-                              onClick={() => handlePatientView(patient.id)}
+                              onClick={() => handlePatientView(patient?.id)}
                               sx={{ "&:hover": { bgcolor: "grey.200" } }}
                             >
                               <VisibilityIcon sx={{ color: "#fa931d" }} />
@@ -238,7 +238,7 @@ const PatientsRecord = () => {
                       </IconButton>
                     </Tooltip>
                     <Typography variant="h8" sx={{fontStyle:"bold"}}>
-                      {`${patient.first_name} ${patient.last_name}`.toUpperCase()}
+                      {`${patient?.first_name} ${patient?.last_name}`.toUpperCase()}
                     </Typography>
 
                   </Box>
@@ -249,30 +249,30 @@ const PatientsRecord = () => {
                       <Grid item xs={12} sm={6} md={6} lg={6}>
 
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`${patient.gender}, ${patient.birthdate}`}
+                          {`${patient?.gender}, ${patient?.birthdate}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Email: ${patient.email}`}
+                          {`Email: ${patient?.email}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Mobile: ${patient.mobile}`}
+                          {`Mobile: ${patient?.mobile}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Job: ${patient.job}`}
+                          {`Job: ${patient?.job}`}
                         </Typography>
                       </Grid><Grid item xs={12} sm={6} md={6} lg={6}>
 
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Region: ${patient.region}`}
+                          {`Region: ${patient?.region}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Zone: ${patient.zone}`}
+                          {`Zone: ${patient?.zone}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Kebele: ${patient.kebele}`}
+                          {`Kebele: ${patient?.kebele}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Registered Date: ${patient.record_date}`}
+                          {`Registered Date: ${patient?.record_date}`}
                         </Typography>
                       </Grid>
                     </Grid>

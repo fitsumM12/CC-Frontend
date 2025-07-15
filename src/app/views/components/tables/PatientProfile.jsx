@@ -91,15 +91,15 @@ const PatientProfile = ({ data }) => {
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const patientData = await fetchPatientById(data.id);
+        const patientData = await fetchPatientById(data?.id);
         setPatients(patientData);
 
-        const uniqueDoctorIds = [...new Set(patientData.map(patient => patient.doctor_id))];
-        const doctorPromises = uniqueDoctorIds.map(doctorId => getUser(doctorId));
+        const uniqueDoctorIds = [...new Set(patientData?.map(patient => patient?.doctor_id))];
+        const doctorPromises = uniqueDoctorIds?.map(doctorId => getUser(doctorId));
 
         const doctors = await Promise.all(doctorPromises);
         const doctorDetailsMap = {};
-        uniqueDoctorIds.forEach((doctorId, index) => {
+        uniqueDoctorIds?.forEach((doctorId, index) => {
           doctorDetailsMap[doctorId] = doctors[index];
         });
         setDoctorDetails(doctorDetailsMap);
@@ -115,8 +115,8 @@ const PatientProfile = ({ data }) => {
   }, [doctorDetails]);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const filteredPatient = patients.filter((patient) =>
-    String(patient.record_date).toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPatient = patients?.filter((patient) =>
+    String(patient?.record_date).toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleChangePage = (_, newPage) => {
@@ -169,29 +169,29 @@ const PatientProfile = ({ data }) => {
                 .map((patient, index) => (
                   <TableRow key={index}>
                     <TableCell align="left">
-                      {patient.record_date}
+                      {patient?.record_date}
                     </TableCell>
-                    <TableCell align="center">{patient.image_prediction}</TableCell>
+                    <TableCell align="center">{patient?.image_prediction}</TableCell>
                     <TableCell align="center">
                       <Tooltip title="View Image">
                         <span
-                          style={{ cursor: "pointer", color: patient.image_url ? "#181b62" : "gray" }}
+                          style={{ cursor: "pointer", color: patient?.image_url ? "#181b62" : "gray" }}
                           onClick={() => {
                             if (patient.image_url) {
-                              const ImageName = patient.image_url.split('\\').pop();
+                              const ImageName = patient?.image_url?.split('\\').pop();
                               // console.log(ImageName)
                               setZoomedImageUrl(`${mediaBaseUrl}${ImageName}`);
                             }
                           }}
                         >
-                          <VisibilityIcon sx={{ color: patient.image_url ? "#181b62" : "gray" }} />
+                          <VisibilityIcon sx={{ color: patient?.image_url ? "#181b62" : "gray" }} />
                         </span>
                       </Tooltip>
                     </TableCell>
                     <TableCell align="center">
                       {doctorDetails[patient.doctor_id] ? (
                         <>
-                          {doctorDetails[patient.doctor_id].first_name} {doctorDetails[patient.doctor_id].last_name}
+                          {doctorDetails[patient?.doctor_id]?.first_name} {doctorDetails[patient?.doctor_id].last_name}
                         </>
                       ) : (
                         <p>Loading doctor details...</p>
